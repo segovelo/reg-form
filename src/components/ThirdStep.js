@@ -150,7 +150,11 @@ const ThirdStep = (props) => {
             )}
             </Form.Control>
         </Form.Group>   
-
+       
+        <Button variant="primary" type="submit">
+           Register
+        </Button>
+        
       </div>
     </Form>
 
