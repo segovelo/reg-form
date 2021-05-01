@@ -5,6 +5,16 @@ import Header from '../components/Header';
 import SecondStep from '../components/SecondStep';
 import ThirdStep from '../components/ThirdStep';
 
+const [user, setUser] = useState({});
+
+const updateUser = (data) => {
+  setUser((prevUser) => ({ ...prevUser, ...data }));
+};
+
+const resetUser = () => {
+  setUser({});
+};
+
 const AppRouter = () => (
   <BrowserRouter>
     <div className="container">
@@ -18,9 +28,19 @@ const AppRouter = () => (
                 )}
         path="/"
         exact={true}
-/>
-        <Route component={SecondStep} path="/second" />
-        <Route component={ThirdStep} path="/third" />
+       />
+      <Route
+        render={(props) => (
+          <SecondStep {...props} user={user} updateUser={updateUser} />
+        )}
+        path="/second"
+       />
+      <Route
+        render={(props) => (
+          <ThirdStep {...props} user={user}  />
+        )}
+        path="/third"
+       />
       </Switch>
     </div>
   </BrowserRouter>
