@@ -36,6 +36,53 @@ const ThirdStep = (props) => {
     getCountries();
   }, []);
 
+  useEffect(() => {
+    const getStates = async () => {
+      try {
+        const result = await csc.getStatesOfCountry(selectedCountry);
+        let allStates = [];
+        allStates = result?.map(({ isoCode, name }) => ({
+          isoCode,
+          name
+        }));
+        console.log({ allStates });
+        const [{ isoCode: firstState = '' } = {}] = allStates;
+        setCities([]);
+        setSelectedCity('');
+        setStates(allStates);
+        setSelectedState(firstState);
+      } catch (error) {
+        setStates([]);
+        setCities([]);
+        setSelectedCity('');
+      }
+    };
+
+    getStates();
+  }, [selectedCountry]);
+
+  useEffect(() => {
+    const getCities = async () => {
+      try {
+        const result = await csc.getCitiesOfState(
+          selectedCountry,
+          selectedState
+        );
+        let allCities = [];
+        allCities = result?.map(({ name }) => ({
+          name
+        }));
+        const [{ name: firstCity = '' } = {}] = allCities;
+        setCities(allCities);
+        setSelectedCity(firstCity);
+      } catch (error) {
+        setCities([]);
+      }
+    };
+  
+    getCities();
+  }, [selectedState]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
   };
@@ -61,8 +108,54 @@ const ThirdStep = (props) => {
             ))}
           </Form.Control>
         </Form.Group>
+
+        <Form.Group controlId="state">
+         <Form.Label>State</Form.Label>
+           <Form.Control
+              as="select"
+              name="state"
+              value={selectedState}
+              onChange={(event) => setSelectedState(event.target.value)}
+           >
+                {states.length > 0 ? (
+                states.map(({ isoCode, name }) => (
+                <option value={isoCode} key={isoCode}>
+                         {name}
+                </option>
+                ))
+                 ) : (
+                <option value="" key="">
+                      No state found
+                </option>
+                )}
+            </Form.Control>
+        </Form.Group>  
+
+        <Form.Group controlId="city">
+          <Form.Label>City</Form.Label>
+          <Form.Control
+            as="select"
+            name="city"
+            value={selectedCity}
+            onChange={(event) => setSelectedCity(event.target.value)}
+          >
+            {cities.length > 0 ? (
+              cities.map(({ name }) => (
+                <option value={name} key={name}>
+                  {name}
+                </option>
+              ))
+            ) : (
+              <option value="">No cities found</option>
+            )}
+            </Form.Control>
+        </Form.Group>   
+
       </div>
     </Form>
+
+    
+
   );
 };
 
