@@ -5,9 +5,11 @@ const Progress = ({ location: { pathname } }) => {
   const isFirstStep = pathname === '/';
   const isSecondStep = pathname === '/second';
   const isThirdStep = pathname === '/third';
+  const isLoginPage = pathname === '/login';
 
   return (
     <React.Fragment>
+      {!isLoginPage ? (
       <div className="steps">
         <div className={`${isFirstStep ? 'step active' : 'step'}`}>
           <div>1</div>
@@ -27,7 +29,8 @@ const Progress = ({ location: { pathname } }) => {
           <div>3</div>
           <div>Step 3</div>
         </div>
-      </div>
+      </div> 
+     ) : (<div></div>) }
     </React.Fragment>
   );
 };
