@@ -201,9 +201,6 @@ const ThirdStep = (props) => {
 
       </motion.div>
     </Form>
-
-    
-
   );
 };
 

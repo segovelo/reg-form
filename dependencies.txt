@@ -33,5 +33,5 @@
 	with this:
 	export const BASE_API_URL = '';
 	
-	To start the server type inseide server folder:
+	To start the server type inside server folder:
 	C:\react-app-folder\server>yarn start
